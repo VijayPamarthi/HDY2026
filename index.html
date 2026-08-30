@@ -199,7 +199,7 @@
             pointer-events: all;
         }
 
-        /* SUN FLARE RAYS - Matches image_0.png */
+        /* SUN FLARE RAYS - Opacity reduced by 50% */
         .sun-flare {
             position: absolute;
             top: 0;
@@ -207,9 +207,7 @@
             width: 100vw;
             height: 100vh;
             background:
-                /* Core glowing sun */
                 radial-gradient(circle at 0% 0%, #ffffff 0%, rgba(255, 218, 121, 0.8) 15%, transparent 60%),
-                /* Light streaks/rays pointing outwards */
                 conic-gradient(from 90deg at 0% 0%,
                     transparent 0deg,
                     rgba(255, 210, 100, 0.2) 12deg,
@@ -223,7 +221,7 @@
                 );
             pointer-events: none;
             z-index: 1;
-            mix-blend-mode: screen; /* Blends perfectly with dark backgrounds */
+            mix-blend-mode: screen; 
             animation: pulseFlare 6s infinite alternate ease-in-out;
         }
 
@@ -310,8 +308,8 @@
 
         /* ANIMATIONS */
         @keyframes pulseFlare {
-            0% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% { opacity: 0.35; } 
+            100% { opacity: 0.5; } 
         }
 
         @keyframes rotateMoon {
@@ -391,7 +389,7 @@
 </head>
 <body>
 
-    <!-- Hidden Audio Player (Fixed name to 'mp3') -->
+    <!-- Hidden Audio Player -->
     <audio id="bg-music" src="music.mp3" loop></audio>
 
     <div class="container" id="main-container">
@@ -415,8 +413,8 @@
                     <div class="card-inner">
                         <div class="card-front">🌟</div>
                         <div class="card-back">
-                            <h3>A Year Later</h3>
-                            <p>Watchinh you grow and smile over this last year has been my absolute favorite view.</p>
+                            <h3>My Safe Place</h3>
+                            <p>I still think about how lucky I am that we met. You completely changed my everyday routine, and I love every part of it.</p>
                         </div>
                     </div>
                 </div>
@@ -426,7 +424,7 @@
                         <div class="card-front">✨</div>
                         <div class="card-back">
                             <h3>The Best Chapter</h3>
-                            <p>Like I told you last year, there is so much more to you than people notice, and I love discovering all of it.</p>
+                            <p>Every single moment with you feels like the best chapter of a book I never want to finish reading.</p>
                         </div>
                     </div>
                 </div>
@@ -442,7 +440,7 @@
                 </div>
 
             </div>
-            <p class="footer">Made with love by Vijay</p>
+            <p class="footer">😉</p>
         </div>
     </div>
 
@@ -543,7 +541,7 @@
                 finalScreen.appendChild(heart);
             }
 
-            // 4. Create Corner-Locked Floating Photos (using jpeg)
+            // 4. Create Corner-Locked Floating Photos
             const photoData = [
                 { src: "photo1.jpeg", style: "left: 5vw; top: 10vh;", anim: "hoverTopLeft" },
                 { src: "photo2.jpeg", style: "left: 8vw; bottom: 10vh;", anim: "hoverBottomLeft" },
@@ -565,10 +563,10 @@
             });
         }
 
-        // --- TYPEWRITER EFFECT LOGIC WITH YOUR NATURAL TELUGU-IN-ENGLISH-LETTERS MESSAGE ---
+        // --- TYPEWRITER EFFECT LOGIC ---
         const finalTexts = [
             { id: "type-title", chars: [..."Happiest Birthday Bangaram ✨"] },
-            { id: "type-desc", chars: [..."Nen ni pakkana unna, lekapoina… ni face meedha ah smile epdu alane undali cause I like your smile. Nuv life lo unna prati beautiful moment ni complete ga experience cheyyali. Ni life lo em jarigina, nuv ekkadunna… I care about you and the love I have on you will never fade away nuv bagunte chalu.. konchum dooram nunchi inah nen happy ga feel avtha. Until the day I die I always love you and care about you."] },
+            { id: "type-desc", chars: [..."Nen ni pakkana unna, lekapoina… ni face meedha ah smile epdu alane undali cause I like your smile.    Nuv life lo unna prati beautiful moment ni complete ga experience cheyyali. Ni life lo em jarigina, nuv ekkadunna… I care about you and the love I have on you will never fade away nuv bagunte chalu.. konchum dooram nunchi inah nen happy ga feel avtha. Until the day I die I always love you and care about you."] },
             { id: "type-greet", chars: [..."Always yours Vijju ❤️"] }
         ];
 
@@ -587,34 +585,22 @@
         }
 
         function openFinalCard(card) {
-            // IMMEDIATE ACTION 1: CAPTURE AND FORCE AUDIO PLAYBACK (fixed name to 'mp3')
+            card.classList.add('flipped');
+            
             const music = document.getElementById("bg-music");
             music.volume = 0.8; 
-            
-            const playPromise = music.play();
+            music.play().catch(error => console.log("Audio playback prevented."));
 
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // Audio started!
-                }).catch(error => {
-                    // Autoplay still blocked, but we handled the error context.
-                    console.error("Audio playback prevented.");
-                });
-            }
-
-            // IMMEDIATE ACTION 2: PROCEED WITH VISUAL SURPRISE
-            card.classList.add('flipped');
             document.getElementById("main-container").style.opacity = "0";
+
             createUniverse();
             const finalScreen = document.getElementById("final-screen");
             finalScreen.classList.add("active");
             
-            // Cleanup main container after fade out
             setTimeout(() => {
                 document.getElementById("main-container").style.display = "none";
             }, 1000);
 
-            // Start typing text exactly 1 second after the tap
             setTimeout(() => {
                 typeWriter(finalTexts, 0, 0, 60);
             }, 1000);
